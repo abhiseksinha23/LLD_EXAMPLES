@@ -76,13 +76,22 @@ protected:
 //////////////////////////////////////////////////////////////////
 
 int main(){
+	// cout <<"====== Train the Neuro Network Model ============="<<endl;
+	// MethodTraining *neuronetwork = new NeuroNetworkModel();
+	// neuronetwork->trainModel("/data/file.txt");
+
+
+	// cout <<"====== Train the Decision Tree Model ============="<<endl;
+	// MethodTraining *decisionTree = new DecisionTreeModel();
+	// decisionTree->trainModel("/folder/content.csv");
+
 	cout <<"====== Train the Neuro Network Model ============="<<endl;
-	MethodTraining *neuronetwork = new NeuroNetworkModel();
+	shared_ptr<NeuroNetworkModel> neuronetwork = make_shared<NeuroNetworkModel>();
 	neuronetwork->trainModel("/data/file.txt");
 
 
 	cout <<"====== Train the Decision Tree Model ============="<<endl;
-	MethodTraining *decisionTree = new DecisionTreeModel();
+	unique_ptr<DecisionTreeModel>decisionTree =  make_unique<DecisionTreeModel>();
 	decisionTree->trainModel("/folder/content.csv");
 
 	return 0;
