@@ -8,7 +8,9 @@
 ##
 ### FORMAT     (DESIGN PATTERN == EXAMPLE)
 ##
-### 1. BUILDER                   ==      HTTP REQUEST SENDING SYSTEM
+### 1.1 BUILDER (SIMPLE)         ==      HTTP REQUEST SENDING SYSTEM
+### 1.2 BUILDER (DIRECTOR)       ==      HTTP REQUEST SENDING SYSTEM
+### 1.3 BUILDER (STEP-UP)        ==      HTTP REQUEST SENDING SYSTEM
 ### 2. ADAPTER                   ==      3RD PARTY INTEGRATION
 ### 3. BRIDGE                    ==      CAR AND ENGINE
 ### 4. CHAIN OF RESPONSIBILITY   ==      ATM DISPENSER
@@ -22,9 +24,9 @@
 ### 12. TEMPLATE                 ==      MODEL TRAINING (FIXED EXECUTION --> TEMPLATE)
 ### 13. FACTORY                  ==      BURGER FACTORY
 ### 14. ABSTRACT FACTORY         ==      BURGER FACTORY
-### 15. PROXY (VIRTUAL)          ==      IMAGE DISPLAY
-### 15. PROXY (PROTECTION)       ==      DOC READER
-### 15. PROXY (REMOTE)           ==      DATA SERVICE
+### 15.1. PROXY (VIRTUAL)        ==      IMAGE DISPLAY
+### 15.2. PROXY (PROTECTION)     ==      DOC READER
+### 15.3. PROXY (REMOTE)         ==      DATA SERVICE
 ##
 ##
 ## EXAMPLES FOR PRACTICE 
