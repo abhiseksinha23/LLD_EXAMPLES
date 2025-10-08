@@ -30,6 +30,7 @@
 ### 16. ITERATOR                 ==      LINKEDLIST-ITERATOR, BINARYTREE-ITERATOR, PLAYLIST-ITERATOR
 ### 17. FLYWEIGHT                ==      ASTEROID GAME
 ### 18. STATE                    ==      VENDING MACHINE
+### 19. MEDIATOR                 ==      CHATROOM
 ##
 ##
 ## EXAMPLES FOR PRACTICE 
