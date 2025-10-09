@@ -31,6 +31,7 @@
 ### 17. FLYWEIGHT                ==      ASTEROID GAME
 ### 18. STATE                    ==      VENDING MACHINE
 ### 19. MEDIATOR                 ==      CHATROOM
+### 20. PROTOTYPE                ==      NPC (NON-PLAYING CHARACTERS)
 ##
 ##
 ## EXAMPLES FOR PRACTICE 
