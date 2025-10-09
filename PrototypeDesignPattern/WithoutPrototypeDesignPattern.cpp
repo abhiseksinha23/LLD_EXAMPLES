@@ -44,5 +44,7 @@ int main() {
 	shared_ptr<NPC> alien2 = make_shared<NPC>("Alien", 30, 5, 5);
 	alien2->describe();
 
+	// IF YOU WANT TO CREATE 100 ALIENS YOU HAVE TO DO THE HEAVY OPERATIONS 100 TIMES....
+
 	return 0;
 }
