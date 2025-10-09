@@ -79,6 +79,9 @@ int main() {
     alienCopied2->setHealth(50);
     alienCopied2->describe();
 
+	// IF YOU WANT TO CREATE 100 ALIENS YOU DON'T HAVE TO DO THE HEAVY OPERATIONS 100 TIMES 
+	// JUST COPY WILL WORK AND IT WILL SAVE COST (TIME).
+
     // cleanup
     delete alien;
     delete alienCopied1;
