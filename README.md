@@ -32,6 +32,7 @@
 ### 18. STATE                    ==      VENDING MACHINE
 ### 19. MEDIATOR                 ==      CHATROOM
 ### 20. PROTOTYPE                ==      NPC (NON-PLAYING CHARACTERS)
+### 21. VISITOR                  ==      DOCUMENT-ELEMENT
 ##
 ##
 ## EXAMPLES FOR PRACTICE 
