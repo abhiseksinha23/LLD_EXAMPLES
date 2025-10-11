@@ -33,6 +33,7 @@
 ### 19. MEDIATOR                 ==      CHATROOM
 ### 20. PROTOTYPE                ==      NPC (NON-PLAYING CHARACTERS)
 ### 21. VISITOR                  ==      DOCUMENT-ELEMENT
+### 22. MOMENTO                  ==      DB TRANSACTION MANAGEMENT
 ##
 ##
 ## EXAMPLES FOR PRACTICE 
