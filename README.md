@@ -34,6 +34,7 @@
 ### 20. PROTOTYPE                ==      NPC (NON-PLAYING CHARACTERS)
 ### 21. VISITOR                  ==      DOCUMENT-ELEMENT
 ### 22. MOMENTO                  ==      DB TRANSACTION MANAGEMENT
+### 23. INTERPRETER              ==      DATE EXPRESSION MANAGER
 ##
 ##
 ## EXAMPLES FOR PRACTICE 
