@@ -5,7 +5,7 @@ FUNCTION REQUIREMENTS
 
 - SIZE OF THE BOARD SHOULD BE SCALABLE.
 - THERE ARE STANDARD GAME RULES AND SHOULD BE FURTHER EXTENDIBLE.
-- ALLOW ON APP NOTIFICATION FOR TIC-TAC-TOE MOVES, WINS, AND DRAWS.
+- ALLOW ON APP NOTIFICATION FOR SNAKE AND LADDER, MOVES, WINS, AND DRAWS.
 - THERE CAN BE GAME SETUP STRATEGIES --> RANDON SETUP, CUSTOM SETUP, STANDARD SETUP, ETC.
 
 NON FUNCTION REQUIREMENTS
@@ -168,7 +168,7 @@ public:
 	}
 
 	void removeObserver(shared_ptr<IObserver> obs) {
-		observers.remove(obs);
+		observers.erase(obs);
 	}
 
 	void notify(string msg) {
@@ -195,6 +195,8 @@ public:
 
 	int rollDice() {
 		// LOGIC TO ROLL THE DICE.
+		int randomNum = rand() % 6;
+    	return (randomNum + 1);
 	}
 };
 
@@ -221,11 +223,11 @@ public:
 	int findFinalPosition(int initial, int roll, shared_ptr<Board>Board) override {
 		int finalPos = initial + roll;
 
-		if(Board->checkEntity(findPos) == false) {
-			return findPos;
+		if(Board->checkEntity(finalPos) == false) {
+			return finalPos;
 		}
 
-		auto entity = Board->getEntity(findPos);
+		auto entity = Board->getEntity(finalPos);
 		return entity->getEnd();
 	}
 
@@ -237,13 +239,13 @@ public:
 };
 
 enum class RuleType {
-	STANDARD;
+	STANDARD
 };
 
 class RuleFactory {
 public:
 	static shared_ptr<StandardRule> createRule(RuleType rule) {
-		if(RuleType::STANDARD) {
+		if(rule == RuleType::STANDARD) {
 			return make_shared<StandardRule>();
 		}
 
@@ -271,6 +273,37 @@ public:
 	void setupBoard(shared_ptr<Board> board) override {
 		// Create entities at Standard Positions
 		// Add entities to the board;
+		
+		// Only works for 10x10 board (100 cells)
+        // if(board->getBoardSize() != 100) {
+        //     cout << "Standard setup only works for 10x10 board!" << endl;
+        //     return;
+        // }
+        
+        // Standard snake positions (based on traditional board)
+        // board->addBoardEntity(new Snake(99, 54));
+        // board->addBoardEntity(new Snake(95, 75));
+        // board->addBoardEntity(new Snake(92, 88));
+        // board->addBoardEntity(new Snake(89, 68));
+        // board->addBoardEntity(new Snake(74, 53));
+        // board->addBoardEntity(new Snake(64, 60));
+        // board->addBoardEntity(new Snake(62, 19));
+        // board->addBoardEntity(new Snake(49, 11));
+        // board->addBoardEntity(new Snake(46, 25));
+        // board->addBoardEntity(new Snake(16, 6));
+        
+        // // Standard ladder positions
+        // board->addBoardEntity(new Ladder(2, 38));
+        // board->addBoardEntity(new Ladder(7, 14));
+        // board->addBoardEntity(new Ladder(8, 31));
+        // board->addBoardEntity(new Ladder(15, 26));
+        // board->addBoardEntity(new Ladder(21, 42));
+        // board->addBoardEntity(new Ladder(28, 84));
+        // board->addBoardEntity(new Ladder(36, 44));
+        // board->addBoardEntity(new Ladder(51, 67));
+        // board->addBoardEntity(new Ladder(71, 91));
+        // board->addBoardEntity(new Ladder(78, 98));
+        // board->addBoardEntity(new Ladder(87, 94));
 	}
 };
 
@@ -311,7 +344,7 @@ public:
 			board->addEntity(entity);
 		}
 	}
-}
+};
 
 enum class SetupType {
 	RANDOM,
@@ -321,7 +354,7 @@ enum class SetupType {
 
 class SetupStrategyFactory {
 public:
-	static shared_ptr<SetupStrategy*> createSetupStrategy(SetupType type) {
+	static shared_ptr<SetupStrategy> createSetupStrategy(SetupType type) {
 		if(type == SetupType::RANDOM) {
 			return make_shared<RandomSetup>();
 		} else if(type == SetupType::STANDARD) {
@@ -351,6 +384,7 @@ public:
 	GameFacade(int size) {
 		board = make_shared<Board>(size);
 		gameOver = false;
+		dice = make_shared<Dice>(6);
 
 		shared_ptr<InAppObserver> inapp = make_shared<InAppObserver>();
 		NotificationService::getInstance()->addObserver(inapp);
@@ -379,6 +413,60 @@ public:
 
 	void play() {
 		// Logic to play the game.
+
+		while(gameOver == false) {
+
+			if(players.size() <= 1) {
+				gameOver = true;
+				continue;
+			}
+
+			auto player = players.front();
+
+			string msg = player->getName() + " your chance, rolling the dice";
+			notify(msg);
+
+			int roll = dice->rollDice();
+
+			msg = player->getName() + " your got : " + to_string(roll);
+			notify(msg);
+
+			if(rule->checkValidMove(player->getPosition(), roll, board) == false){
+				msg = "Not a valid move, please retry";
+				notify(msg);
+				continue;
+			}
+			
+			int pos = rule->findFinalPosition(player->getPosition(), roll, board);
+		
+
+			if(rule->checkWin(player->getPosition(), roll, board) == true) {
+				msg = player->getName() + " your win, Congratulation !!!";
+				notify(msg);
+			    player->updatePosition(pos);
+				players.pop_front();
+				continue;
+			}
+
+			if(pos != (player->getPosition() + roll)) {
+				int initial = player->getPosition() + roll;
+
+				if(board->checkEntity(initial) == true) {
+					auto entity = board->getEntity(initial);
+
+					msg = "You encountered a " + entity->getType() + " at : " + to_string(entity->getStart()) + 
+						  " which takes you to " + to_string(entity->getEnd());
+					notify(msg);
+				}
+			}
+
+			msg = player->getName() + " your new position is " + to_string(pos);
+			notify(msg);
+			
+            player->updatePosition(pos);
+			players.pop_front();
+			players.push_back(player);
+		}
 	}
 };
 
@@ -393,7 +481,39 @@ int main() {
 	shared_ptr<Rule> rule = RuleFactory::createRule(RuleType::STANDARD);
 	game->setRule(rule);
 
-	shared_ptr<SetupStrategy> setupStrategy = SetupStrategyFactory::createSetupStrategy(SetupType::STANDARD);
+// 	shared_ptr<CustomSetup> setupStrategy = SetupStrategyFactory::createSetupStrategy(SetupType::CUSTOM);
+
+    shared_ptr<CustomSetup> setupStrategy = make_shared<CustomSetup>();
+
+	shared_ptr<BoardEntity> snake1 = make_shared<BoardEntity>("Snake", 97, 23);
+	setupStrategy->addEntity(snake1);
+
+	shared_ptr<BoardEntity> snake2 = make_shared<BoardEntity>("Snake", 54, 38);
+	setupStrategy->addEntity(snake2);
+
+	shared_ptr<BoardEntity> snake3 = make_shared<BoardEntity>("Snake", 62, 12);
+	setupStrategy->addEntity(snake3);
+
+	shared_ptr<BoardEntity> snake4 = make_shared<BoardEntity>("Snake", 78, 45);
+	setupStrategy->addEntity(snake4);
+
+
+
+	shared_ptr<BoardEntity> ladder1 = make_shared<BoardEntity>("Ladder", 16, 55);
+	setupStrategy->addEntity(ladder1);
+
+	shared_ptr<BoardEntity> ladder2 = make_shared<BoardEntity>("Ladder", 22, 65);
+	setupStrategy->addEntity(ladder2);
+
+	shared_ptr<BoardEntity> ladder3 = make_shared<BoardEntity>("Ladder", 77, 96);
+	setupStrategy->addEntity(ladder3);
+
+	shared_ptr<BoardEntity> ladder4 = make_shared<BoardEntity>("Ladder", 29, 90);
+	setupStrategy->addEntity(ladder4);
+
+	shared_ptr<BoardEntity> ladder5 = make_shared<BoardEntity>("Ladder", 3, 27);
+	setupStrategy->addEntity(ladder5);
+
 	game->setupBoard(setupStrategy);
 
 
