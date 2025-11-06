@@ -5,7 +5,7 @@ FUNCTION REQUIREMENTS
 
 - SIZE OF THE BOARD SHOULD BE SCALABLE.
 - THERE ARE STANDARD GAME RULES AND SHOULD BE FURTHER EXTENDIBLE.
-- ALLOW ON APP NOTIFICATION FOR SNAKE AND LADDER, MOVES, WINS, AND DRAWS.
+- ALLOW ON APP NOTIFICATION FOR SNAKE AND LADDER MOVES, WINS, AND DRAWS.
 - THERE CAN BE GAME SETUP STRATEGIES --> RANDON SETUP, CUSTOM SETUP, STANDARD SETUP, ETC.
 
 NON FUNCTION REQUIREMENTS
@@ -275,35 +275,35 @@ public:
 		// Add entities to the board;
 		
 		// Only works for 10x10 board (100 cells)
-        // if(board->getBoardSize() != 100) {
-        //     cout << "Standard setup only works for 10x10 board!" << endl;
-        //     return;
-        // }
+        if(board->getSize() != 100) {
+            cout << "Standard setup only works for 10x10 board!" << endl;
+            return;
+        }
         
         // Standard snake positions (based on traditional board)
-        // board->addBoardEntity(new Snake(99, 54));
-        // board->addBoardEntity(new Snake(95, 75));
-        // board->addBoardEntity(new Snake(92, 88));
-        // board->addBoardEntity(new Snake(89, 68));
-        // board->addBoardEntity(new Snake(74, 53));
-        // board->addBoardEntity(new Snake(64, 60));
-        // board->addBoardEntity(new Snake(62, 19));
-        // board->addBoardEntity(new Snake(49, 11));
-        // board->addBoardEntity(new Snake(46, 25));
-        // board->addBoardEntity(new Snake(16, 6));
+        board->addEntity(make_shared<BoardEntity>("Snake", 99, 54));
+        board->addEntity(make_shared<BoardEntity>("Snake", 95, 75));
+        board->addEntity(make_shared<BoardEntity>("Snake", 89, 68));
+        board->addEntity(make_shared<BoardEntity>("Snake", 74, 53));
+        board->addEntity(make_shared<BoardEntity>("Snake", 92, 88));
+        board->addEntity(make_shared<BoardEntity>("Snake", 64, 60));
+        board->addEntity(make_shared<BoardEntity>("Snake", 62, 19));
+        board->addEntity(make_shared<BoardEntity>("Snake", 49, 11));
+        board->addEntity(make_shared<BoardEntity>("Snake", 46, 25));
+        board->addEntity(make_shared<BoardEntity>("Snake", 16, 6));
         
-        // // Standard ladder positions
-        // board->addBoardEntity(new Ladder(2, 38));
-        // board->addBoardEntity(new Ladder(7, 14));
-        // board->addBoardEntity(new Ladder(8, 31));
-        // board->addBoardEntity(new Ladder(15, 26));
-        // board->addBoardEntity(new Ladder(21, 42));
-        // board->addBoardEntity(new Ladder(28, 84));
-        // board->addBoardEntity(new Ladder(36, 44));
-        // board->addBoardEntity(new Ladder(51, 67));
-        // board->addBoardEntity(new Ladder(71, 91));
-        // board->addBoardEntity(new Ladder(78, 98));
-        // board->addBoardEntity(new Ladder(87, 94));
+        // Standard ladder positions
+        board->addEntity(make_shared<BoardEntity>("Ladder", 2, 38));
+        board->addEntity(make_shared<BoardEntity>("Ladder", 7, 14));
+        board->addEntity(make_shared<BoardEntity>("Ladder", 8, 31));
+        board->addEntity(make_shared<BoardEntity>("Ladder", 15, 26));
+        board->addEntity(make_shared<BoardEntity>("Ladder", 21, 42));
+        board->addEntity(make_shared<BoardEntity>("Ladder", 28, 84));
+        board->addEntity(make_shared<BoardEntity>("Ladder", 36, 44));
+        board->addEntity(make_shared<BoardEntity>("Ladder", 51, 67));
+        board->addEntity(make_shared<BoardEntity>("Ladder", 71, 91));
+        board->addEntity(make_shared<BoardEntity>("Ladder", 78, 98));
+        board->addEntity(make_shared<BoardEntity>("Ladder", 87, 94));
 	}
 };
 
@@ -481,38 +481,38 @@ int main() {
 	shared_ptr<Rule> rule = RuleFactory::createRule(RuleType::STANDARD);
 	game->setRule(rule);
 
-// 	shared_ptr<CustomSetup> setupStrategy = SetupStrategyFactory::createSetupStrategy(SetupType::CUSTOM);
+	shared_ptr<SetupStrategy> setupStrategy = SetupStrategyFactory::createSetupStrategy(SetupType::STANDARD);
 
-    shared_ptr<CustomSetup> setupStrategy = make_shared<CustomSetup>();
+    // shared_ptr<CustomSetup> setupStrategy = make_shared<CustomSetup>();
 
-	shared_ptr<BoardEntity> snake1 = make_shared<BoardEntity>("Snake", 97, 23);
-	setupStrategy->addEntity(snake1);
+	// shared_ptr<BoardEntity> snake1 = make_shared<BoardEntity>("Snake", 97, 23);
+	// setupStrategy->addEntity(snake1);
 
-	shared_ptr<BoardEntity> snake2 = make_shared<BoardEntity>("Snake", 54, 38);
-	setupStrategy->addEntity(snake2);
+	// shared_ptr<BoardEntity> snake2 = make_shared<BoardEntity>("Snake", 54, 38);
+	// setupStrategy->addEntity(snake2);
 
-	shared_ptr<BoardEntity> snake3 = make_shared<BoardEntity>("Snake", 62, 12);
-	setupStrategy->addEntity(snake3);
+	// shared_ptr<BoardEntity> snake3 = make_shared<BoardEntity>("Snake", 62, 12);
+	// setupStrategy->addEntity(snake3);
 
-	shared_ptr<BoardEntity> snake4 = make_shared<BoardEntity>("Snake", 78, 45);
-	setupStrategy->addEntity(snake4);
+	// shared_ptr<BoardEntity> snake4 = make_shared<BoardEntity>("Snake", 78, 45);
+	// setupStrategy->addEntity(snake4);
 
 
 
-	shared_ptr<BoardEntity> ladder1 = make_shared<BoardEntity>("Ladder", 16, 55);
-	setupStrategy->addEntity(ladder1);
+	// shared_ptr<BoardEntity> ladder1 = make_shared<BoardEntity>("Ladder", 16, 55);
+	// setupStrategy->addEntity(ladder1);
 
-	shared_ptr<BoardEntity> ladder2 = make_shared<BoardEntity>("Ladder", 22, 65);
-	setupStrategy->addEntity(ladder2);
+	// shared_ptr<BoardEntity> ladder2 = make_shared<BoardEntity>("Ladder", 22, 65);
+	// setupStrategy->addEntity(ladder2);
 
-	shared_ptr<BoardEntity> ladder3 = make_shared<BoardEntity>("Ladder", 77, 96);
-	setupStrategy->addEntity(ladder3);
+	// shared_ptr<BoardEntity> ladder3 = make_shared<BoardEntity>("Ladder", 77, 96);
+	// setupStrategy->addEntity(ladder3);
 
-	shared_ptr<BoardEntity> ladder4 = make_shared<BoardEntity>("Ladder", 29, 90);
-	setupStrategy->addEntity(ladder4);
+	// shared_ptr<BoardEntity> ladder4 = make_shared<BoardEntity>("Ladder", 29, 90);
+	// setupStrategy->addEntity(ladder4);
 
-	shared_ptr<BoardEntity> ladder5 = make_shared<BoardEntity>("Ladder", 3, 27);
-	setupStrategy->addEntity(ladder5);
+	// shared_ptr<BoardEntity> ladder5 = make_shared<BoardEntity>("Ladder", 3, 27);
+	// setupStrategy->addEntity(ladder5);
 
 	game->setupBoard(setupStrategy);
 
